@@ -135,50 +135,50 @@ console.log ( `${invoices_data.length} faturas criadas.`);
 
 const revenue_data = [{
   month: 'Jan',
-  revenue: 908765433
+  revenue: 908763
 },
 {
   month: 'fev',
-  revenue: 908765433
+  revenue: 9081733
+},
+ {
+  month: 'marc',
+  revenue: 90876543
 },
  {
   month: 'abr',
-  revenue: 908765433
+  revenue: 909265433
 },
- {
+{
   month: 'mai',
-  revenue: 908765433
+  revenue: 908769133
+},
+ {
+  month: 'jun',
+  revenue: 828765433
+},
+ {
+  month: 'jul',
+  revenue: 1008765433
+},
+ {
+  month: 'ago',
+  revenue: 9087654331
 },
 {
-  month: 'Jun',
-  revenue: 908765433
-},
- {
-  month: 'Jul',
-  revenue: 908765433
-},
- {
-  month: 'agos',
-  revenue: 908765433
-},
- {
   month: 'set',
-  revenue: 908765433
+  revenue: 9927654335
 },
-{
+ {
   month: 'out',
-  revenue: 908765433
+  revenue: 92376543392
 },
  {
   month: 'nov',
-  revenue: 908765433
+  revenue: 908765433111
 },
  {
-  month: 'deze',
-  revenue: 908765433
-},
- {
-  month: 'Jan',
+  month: 'dez',
   revenue: 908765433
 },
 ]
