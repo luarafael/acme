@@ -139,47 +139,47 @@ const revenue_data = [{
 },
 {
   month: 'fev',
-  revenue: 9081733
+  revenue: 908173
 },
  {
   month: 'marc',
-  revenue: 90876543
+  revenue: 908765
 },
  {
   month: 'abr',
-  revenue: 909265433
+  revenue: 909265
 },
 {
   month: 'mai',
-  revenue: 908769133
+  revenue: 908769
 },
  {
   month: 'jun',
-  revenue: 828765433
+  revenue: 8287654
 },
  {
   month: 'jul',
-  revenue: 1008765433
+  revenue: 1008765
 },
  {
   month: 'ago',
-  revenue: 9087654331
+  revenue: 9087654
 },
 {
   month: 'set',
-  revenue: 9927654335
+  revenue: 9927654
 },
  {
   month: 'out',
-  revenue: 92376543392
+  revenue: 9237654
 },
  {
   month: 'nov',
-  revenue: 908765433111
+  revenue: 90876543
 },
  {
   month: 'dez',
-  revenue: 908765433
+  revenue: 9087654
 },
 ]
 for (const data of revenue_data){
