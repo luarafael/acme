@@ -45,6 +45,9 @@ for(const data of customers_data) {
   console.log(`Cliente criado: ${customer.name}`);
 };
 
+console.log(customers);
+
+
 const invoices_data = [{
   amount: 150070,
   status: InvoiceStatus.PAGO,
@@ -62,61 +65,61 @@ const invoices_data = [{
    amount: 1320070,
   status: InvoiceStatus.PENDENTE,
   date: '2026-05-18',
-  customer: customers[2]
+  customer: customers[0]
 },
 {
    amount: 112000,
   status: InvoiceStatus.PAGO,
   date: '2026-05-19',
-  customer: customers[3]
+  customer: customers[1]
 },
 {
    amount: 190070,
   status: InvoiceStatus.PAGO,
   date: '2026-05-17',
-  customer: customers[4]
+  customer: customers[1]
 },
 {
    amount: 150570,
   status: InvoiceStatus.PAGO,
   date: '2026-05-09',
-  customer: customers[5]
+  customer: customers[0]
 },
 {
    amount: 1100370,
   status: InvoiceStatus.PAGO,
   date: '2026-05-04',
-  customer: customers[6]
+  customer: customers[1]
 },
 {
    amount: 200340,
   status: InvoiceStatus.PENDENTE,
   date: '2026-05-13',
-  customer: customers[7]
+  customer: customers[0]
 },
 {
    amount: 129370,
   status: InvoiceStatus.PAGO,
   date: '2026-05-21',
-  customer: customers[8]
+  customer: customers[0]
 },
 {
    amount: 173050,
   status: InvoiceStatus.PENDENTE,
   date: '2026-05-22',
-  customer: customers[9]
+  customer: customers[0]
 },
 {
    amount: 1301070,
   status: InvoiceStatus.PENDENTE,
   date: '2026-05-20',
-  customer: customers[10]
+  customer: customers[0]
 },
 {
    amount: 130070,
   status: InvoiceStatus.PAGO,
   date: '2026-05-12',
-  customer: customers[11]
+  customer: customers[1]
 },
 
 ];
@@ -175,7 +178,7 @@ const revenue_data = [{
 },
  {
   month: 'nov',
-  revenue: 90876543
+  revenue: 9087654
 },
  {
   month: 'dez',
