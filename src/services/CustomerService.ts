@@ -9,7 +9,7 @@ import { promiseHooks } from "v8";
 interface FindAllParams{
   search?: string,
 };
- async function findAllCustomer(
+export async function findAllCustomers(
   params: FindAllParams = {}): Promise<Customer[]>
 {
 const { search } = params;
@@ -51,8 +51,8 @@ export async function createCustomer (
 
 
 export async function updateCustomer (
+  id: string,
   data: UpdateCustomerData,
-  id: string
 ): Promise<Customer> {
 
   const customer = await prisma.customer.update({
