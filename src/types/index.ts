@@ -53,12 +53,12 @@ export interface PaginationMeta {
   page: number;
   limit: number;
   totalPages: number;
-  hasMore:boolean;
+  hasMore: boolean;
 }
 
-export interface PaginatedResponse <T> {
-  data:T[];
-  meta:PaginationMeta;
+export interface PaginatedResponse<T> {
+  data: T[];
+  meta: PaginationMeta;
 }
 
 export interface ApiResponse<T> {

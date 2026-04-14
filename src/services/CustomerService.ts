@@ -2,35 +2,72 @@ import prisma from "@/lib/prisma";
 import {
   Customer,
   CreateCustomerData,
-  UpdateCustomerData
+  UpdateCustomerData,
+  FindAllCustomerParams,
+  PaginatedResponse
 } from '@/types';
+import { RESPONSE_LIMIT_DEFAULT } from "next/dist/server/api-utils";
 import { promiseHooks } from "v8";
 
-interface FindAllParams{
-  search?: string,
-};
+const SORTABLES_FIELD = ['name', 'email'] as const;
+
+type SortablesField = (typeof SORTABLES_FIELD)[number];
+
+function isSortableFields(value: string): value is SortablesField {
+  return (SORTABLES_FIELD as readonly string[]).includes(value);
+}
+
 export async function findAllCustomers(
-  params: FindAllParams = {}): Promise<Customer[]>
-{
-const { search } = params;
+  params: FindAllCustomerParams = {}):
+  Promise<PaginatedResponse<Customer>> {
+  const {
+    search,
+    page = 1,
+    limit = 10,
+    sortBy = 'name',
+    order = 'asc'
+  } = params;
 
-const customers = await prisma.customer.findMany({
-  where: search ? {
-   OR:[
-    { name: {contains: search, mode: 'insensitive'} },
-    { email: {contains: search, mode: 'insensitive'} }
-   ] 
-  }: undefined,
-  orderBy: {name:'asc'}
-});
+  const safePage = Math.max(1, page);
+  const safeLimit = Math.min(Math.max(1, limit), 100);
+  const skip = (safePage - 1) * safeLimit;
+  const safeSortBy = isSortableFields(sortBy) ? sortBy : 'name';
 
-return customers;
 
+  const where = search ? {
+    OR: [
+      { name: { contains: search, mode: 'insensitive' as const } },
+      { email: { contains: search, mode: 'insensitive' } as const }
+    ]
+  } : undefined;
+
+  const [customers, total] = await Promise.all([
+    prisma.customer.findMany({
+      where,
+      orderBy: { [safeSortBy]: order },
+      take: safeLimit,
+      skip
+    }),
+    prisma.customer.count({ where })
+  ])
+  const totalPages = Math.ceil(total / safeLimit);
+  
+  return {
+    data: customers,
+    meta: {
+      total,
+      page: safePage,
+      limit: safeLimit,
+      totalPages,
+      hasMore: safePage < totalPages
+    }
+  }
 };
+
 
 export async function findCustomerById(
   id: string
-): Promise<Customer | null>{
+): Promise<Customer | null> {
   const customer = await prisma.customer.findUnique({
     where: { id }
   })
@@ -38,7 +75,7 @@ export async function findCustomerById(
   return customer
 }
 
-export async function createCustomer (
+export async function createCustomer(
   data: CreateCustomerData
 ): Promise<Customer> {
 
@@ -50,7 +87,7 @@ export async function createCustomer (
 }
 
 
-export async function updateCustomer (
+export async function updateCustomer(
   id: string,
   data: UpdateCustomerData,
 ): Promise<Customer> {
@@ -63,11 +100,11 @@ export async function updateCustomer (
   return customer;
 }
 
-export async function deleteCustomer (
+export async function deleteCustomer(
   id: string
 ): Promise<void> {
 
-   await prisma.customer.delete({
+  await prisma.customer.delete({
     where: { id },
   });
 };

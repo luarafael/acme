@@ -7,9 +7,12 @@ import {
   createCustomer,
 
 } from '@/services/CustomerService';
-import { ApiError } from '@/types';
-import { create } from 'domain';
-import { URLSearchParams } from 'url';
+import {
+  ApiError,
+  SortOrder
+} from '@/types';
+
+
 
 export const CreateCustomerSchema = z.object({
   name: z.
@@ -42,7 +45,18 @@ function buildErrorResponse(
 export const CustomerController = {
   async getALL(searchParams: URLSearchParams) {
     const search = searchParams.get('search') ?? undefined;
-    const customers = await findAllCustomers({ search })
+    const page = Number(searchParams.get('pages')) || 1;
+    const limit = Number(searchParams.get('limit')) || 10;
+    const sortBy = searchParams.get('sortBy') ?? 'name';
+    const order = (searchParams.get('order') as SortOrder) ?? 'asc';
+    
+    const customers = await findAllCustomers({ 
+      search,
+      page,
+      limit,
+      sortBy,
+      order
+    })
     return {
       status: 200,
       body: customers
@@ -51,14 +65,14 @@ export const CustomerController = {
   async getById(id: string) {
     const customer = await findCustomerById(id);
 
-    if(!customer) {
+    if (!customer) {
       return {
         status: 404,
         body: buildErrorResponse('Cliente não encontrado')
       };
     };
 
-    return{
+    return {
       status: 200,
       body: customer
     }
@@ -66,8 +80,8 @@ export const CustomerController = {
   async uptdate(id: string, data: unknown) {
     const existing = await findCustomerById(id);
 
-    if(!existing){
-      return{
+    if (!existing) {
+      return {
         status: 404,
         body: buildErrorResponse('Cliente não encontrado.')
       };
@@ -75,7 +89,7 @@ export const CustomerController = {
 
     const parsed = UpdateCustomerSchema.safeParse(data);
 
-    if(!parsed.success){
+    if (!parsed.success) {
       return {
         status: 400,
         body: buildErrorResponse(
@@ -87,46 +101,46 @@ export const CustomerController = {
 
     const customer = await updateCustomer(id, parsed.data)
     return {
-      status:200,
+      status: 200,
       body: customer
     };
   },
   async create(data: unknown) {
     const parsed = CreateCustomerSchema.safeParse(data)
-    if(!parsed.success){
+    if (!parsed.success) {
       return {
         status: 400,
         body: buildErrorResponse(
           'dados inválidos.',
-          parsed.error.flatten().fieldErrors  as  Record<string, string[]>
+          parsed.error.flatten().fieldErrors as Record<string, string[]>
         )
       };
     };
 
     const customer = await createCustomer(parsed.data);
-    return{
-      status:201,
+    return {
+      status: 201,
       body: customer
     };
   },
-  async remove(id:'sting') {
+  async remove(id: 'sting') {
     const existing = await findCustomerById(id);
 
-    if(!existing){
-      return{
+    if (!existing) {
+      return {
         status: 404,
         body: buildErrorResponse('Cliente não encontrado.')
       };
     };
 
     await deleteCustomer(id);
-    return{
-      status:200,
-      body: { message:'Cliente removido com sucesso'}
+    return {
+      status: 200,
+      body: { message: 'Cliente removido com sucesso' }
     }
-    
 
-    
+
+
 
   }
 
